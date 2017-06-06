@@ -1,135 +1,144 @@
-# Git 入门与实践
-- 有图形化(Source Tree, 小乌龟 )，有命令行（git bash）
+# 关于反馈
+> 无  
+> 对于整个流程不太熟悉  
+> 主要分支这块  
+> perfect!老师，我想问下在文件夹里右键打开git bash 和我把git bash放在桌面单击，有什么区别
+> 基本理解，需要多练习,加强记忆.  
+> 挺好的  
+> 无  
+> 视频好像有杂音,不碰话桶 ,,好多命令是在git bash中写的,希望可以注释再详细一点!
 
-# 版本管理工具(每一次备份，就相当于一个版本)
-- 自己电脑备份
-- 公用电脑备份
-
-## 配置git (一个电脑只要配置一次)
-配置用户名和邮箱:
-输入命令: 
-配置用户名: `git config --global user.name "自己的名字"`
-配置邮箱: `git config --global user.email "自己的邮箱"`
->补充，其实是保存了用户名和邮箱到 C:\Users\[用户名]\.gitconfig文件中
-
-### 基础操作
-
-> 既然只是一个工具，学习它无外乎就是记住它的使用方式，而记住使用方式最简单的办法就是：**多用、多尝试**
-
-## 先是在自己电脑上备份
-- 工作目录
-  把写代码的项目文件夹，称之为工作目录
-
-
-- 暂存区
-  临时存储要放的代码
-
-- 仓储
-  备份代码的文件夹，称之为仓库(仓储)
-  + 每个项目都有一个专门备份的文件夹
-  + `git init` 来创建这个文件夹(在项目根目录)
-
-> 暂存区和仓库都在.git文件夹中
-
-## 步骤
-- 0.写代码
-- 1.先放到暂存区： `git add 文件`
-- 2.放到仓库:  `git commit -m "注释"` // 是把暂存区的代码，放到仓库
-- 0.写代码
-- 1.先放到暂存区： `git add 文件`
-- 2.放到仓库:  `git commit -m "注释"` // 是把暂存区的代码，放到仓库
-
-## 补充命令:
-- `git add -A`, 把所有上一次git commit 之后，修改过的文件全部添加到暂存区
-- `git status` // 查看有哪些修改后的文件在暂存区，哪些不在
-
-
-
-## 总结
-vi 编辑器
-配置用户信息:
-git config --global user.name ""
-git config --global user.email ""
-
-
-git init(一个项目执行一次)
-git add 文件名 / git add -A   // 大写的A
-git commit -m "要写注释"
-
+## git 回顾git的使用
+> 版本控制工具(备份工具!)  git config --global 
+git init
+git add -A
+git commit -m "大"
 git status
 git log
-
-## git
-文件有4个状态，三个区
-工作区, (暂存区, 仓库).git
-
-### 4种状态
-- Untracked （未跟踪）
-> 文件没有被添加到暂存区，也没有被提交过! 
-
-- Unmodify (未修改)
-> 自从上次提交后没有改过代码(提交之后，没有修改过代码，那么这个代码就是Unmodify状态)
-
-- Modified (已修改)
->  自从上一次提交后，修改了文件的内容,那么文件的状态就会变为Modified
-
-- Staged （暂存状态）
-> 一旦，我把文件添加到暂区，那么这个文件的状态就变为了Staged
+git log --oneline
+git reflog
+git branch dev
+git checkout dev
+git branch -d dev
+git merge dev
 
 
-### 时光倒流
-// 默认 head指向 master,就会把master中的提交的代码拿到工作区
-- `git reset --hard  提交的id`
-- `git reset --hard 53bd6a3cd5b9ff5782af4837985c1e3023412d23`
+## 流程(争对于一个项目 project)
+> 代码还是像以前一样去写
+> 0.git init (一个项目次)
+> 1. git add -A / git commit -m (当我们觉得有必要去备份时执行!)
+> 2. 继续写代码,如果完成了一个功能，就 git add -A / git commit -m
+> 3. git status//  git log
 
-*注意，如果是回退到最近的一次提交的状态，不需要添加 commit_id*
-*git reset --hard head*
+> 使用分支的情况
+> 当我想要备份代码,代码的功能才写了一部分,如果如果此时备份到master，由于master分支会共享给别人,
+> 别人得到的代码就只有一部分，运行不了!  
+> 【创建分支，然后在分支中提交代码!，直到这个功能完成了，就可以回到master分支，然后合并】
+> git branch dev
+> git checkout dev
+> git add -A, git commit -m 一样是这两个命令
+> 功能完成之后回到master分支
+> git checkout master
+> git merge dev
 
-<!--110-->
-<!--10*10*10-->
+## 忽略清单文件 
+.idea  $('dd').hide()
+// 如果是项目中的代码，不想备的话(因为备的话，就会被别人得到!),需要让git把我们要忽略的代码，忽略掉。
+> git 会自动检测 .gitignore 这个文件。
+> 这个文件中列出的文件，或者文件，可以被git忽略  
+> 这里可以被忽略的意思是 不会被备份到仓库中, 即使我们执行 git add 或者 git commit 命令,也会被忽略!
 
-*补充*
-git log 只能看到 head指向之前的提交记录
-git reflog 查看所有的操作记录
+## 使用方式(.gitignore)
+1.在项目根目录，新建新建一个名为 .gitignore 的文件
+2.假如，我们希望test文件中的内容不被备份, 就在.gitignore 文件中添加一行
+```
+# 忽略项目根目录的test文件夹中的内容
+/test
+
+# 忽略项目中所有名为test的文件夹，或者文件
+test
+
+# 忽略项目中的名为app.js的文件
+app.js
+
+# 忽略项目中的所有js
+*.js
+
+/test/*.*
+```
+
+## 公用的电脑来备份(github)(远端仓库)
+> github本身是个网站 
+> 但是这个网站所在的电脑可以做为公用的电脑来备份代码!  
+> 我们可以用这个[公用电脑也创建一个.git的文件夹](就是创建一个仓库)(远端仓库)
+> 可以[把自己电脑中.git文件夹中的分支 上传到 这个公用电脑上的 .git文件夹中!]
+
+0.注册github账号，并登陆
+0.1. 先使用git bash 窗口，生成一个唯一的字符串(每个人每一次生成的都不一样)
+打开git bash 输入 `ssh-keygen -t rsa`// 这个命令就会生成一个标识,我们需要把这个标识上传到服务器
+会在 【/c/Users/[用户名]/.ssh】目录中生成两个文件: 
+【id_rsa, id_rsa.pub】, 我们用编辑器打开id_rsa.pub,复制内容并关闭
+02.在github网站上,把复制的密钥,添加到github上去!
+
+1.选择 new Responsity 来新建一个新的远端仓库
+2.只需要指定一个名字，并设置为public就可以
+3.点击下方的 Create Resposity按钮 就可以创建完成一个远端仓库!
+4.在要上传的项目中打开git bash 执行命令: 
+`git push git@github.com:huoqishi/fed01.git master:master`
+把本地的master分支中的记录上传到远端(git@github.com:huoqishi/fed01.git)的master分支中
+
+tmp
+`git push git@github.com:huoqishi/fed01.git master:xxx`
+把本地的master分支上传到远端 xxx 分支
 
 
-## 练习
-- index.html
-- 改三次
+## git 上传代码到远端分支的简化命令
+> 原来是 git push git@github.com:huoqishi/fed02.git master
+> 现在: 
+先执行:  git remote add origin git@github.com:huoqishi/fed02.git
+// 这个origin 随便起, 就相当于设置 var origin = "git@github.com:huoqishi/fed02.git"
+git push origin master
+
+<!--java javascript-->
+
+## 从远端仓库(github)来获取代码
+- 刚来公司，要下载完整的代码一次!
+
+*注意，注意，注意，注意*
+*当我们想push代码到远端服务器上是地，需要[先执行pull],把远端服务器拿过来，在本地进行合并(合并过程是自动完成)*
+*先pull再push*
+
+## gitlab
+- 局域网版本的github
+- gitlab和github区别，是可以建私有仓库(关键是不要钱)
 
 
 
-## 需求
--> 功能A, 2周
--> 只做了一半 50%
--> master
+## gulp
 
 
-矛盾,1.要代码要备份
-2.如果把未完成的代码备的话，会导致别人运行不了(因为,会导致别人得到我们未完成的代码，无法运行)
-<!--function (){
-  sdf-->
+<!--function hello () {
+ // ...
+}
 
+function hello(){
 
-
-## 分支
-- 默认只有一个 master分支!
-- 可以创建一个新的分支
-
-### 创建分支
-- `git branch tmp` // 创建了一个平行宇宙(分支)(房间)
-- `git branch -d tmp` // 删除一个叫tmp的平行
-- `git checkout tmp` // 切换到tmp分支!
-- `git branch` // 查看有多少个分支()
-- `git merge tmp` // 合并分支，// 把tmp分支合并到当前分支d
+}
+function hello(){ console.log(1)}
+-->
 
 
 
-## 博客补充!
-
-jquery 1.x.y master
-jquery 2.x.y dev
-jquery 3.x ....
 
 
-陆文末
+
+
+
+
+
+
+
+
+
+
+账号：  WEB26@bj.itcast.cn   密码：89410796    大家连下
